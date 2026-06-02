@@ -1,0 +1,463 @@
+{
+  "run_id": "v3_B_group_openrouter_20260602T160249548271",
+  "version": "v3",
+  "artifact_version": "v3+p81dc15504f56+t27f701d77ebd",
+  "prompt_hash": "81dc15504f566ddac0e3c28c2c551ed721c16d34e2a58c42e0a6c278bdf4a405",
+  "tools_hash": "27f701d77ebd17f2cd8df17699de0cbeeaa6357980b4c118b0c7cef5c39642e5",
+  "phase": "B",
+  "suite": "group",
+  "provider": "openrouter",
+  "model": "openai/gpt-4o-mini",
+  "system_prompt": "/home/nguyenhieu/Day04-C401-Prompt-Engineering-Tool-Calling-Labs-student/starter_v0/artifacts/system_prompt.md",
+  "tools": "/home/nguyenhieu/Day04-C401-Prompt-Engineering-Tool-Calling-Labs-student/starter_v0/artifacts/tools.yaml",
+  "eval_cases": "data/eval_group.json",
+  "dataset_id": "day04_v2_research_group",
+  "dataset_role": "group",
+  "description": "Case do NHÓM tự viết thêm để cover thêm trường hợp. Mỗi case cần: id, phase='B', query HOẶC turns, failure_type (thuộc allowed_failure_types), và expect (tool_calls[...] hoặc no_tool=true). Nên kèm metadata.what_it_tests.",
+  "generated_at": "2026-06-02T16:02:49",
+  "summary": {
+    "total_cases": 6,
+    "measured_cases": 6,
+    "provider_error_cases": 0,
+    "passed_cases": 6,
+    "case_accuracy": 1.0,
+    "tool_routing_accuracy": 1.0,
+    "argument_accuracy": 1.0,
+    "multiturn_accuracy": 1.0,
+    "failure_counts": {},
+    "observed_mismatch_counts": {}
+  },
+  "results": [
+    {
+      "id": "G_RSS01_feed_url_default_limit",
+      "phase": "B",
+      "suite": "group",
+      "case_suite": "group",
+      "is_multiturn": false,
+      "metadata": {
+        "skill": "routing_fetch_rss",
+        "difficulty": "easy",
+        "what_it_tests": "URL RSS/feed rõ ràng → gọi fetch_rss, không gọi fetch hay lookup."
+      },
+      "input": "Lấy 5 bài mới nhất từ RSS này giúp mình: https://techcrunch.com/feed/",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "fetch_rss",
+            "args": {
+              "feed_url": "https://techcrunch.com/feed/",
+              "limit": 5
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "fetch_rss",
+            "args": {
+              "feed_url": "https://techcrunch.com/feed/",
+              "limit": 5
+            }
+          }
+        ],
+        "actual_text": null,
+        "case_failure_type": "wrong_tool",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "fetch_rss",
+          "args": {
+            "feed_url": "https://techcrunch.com/feed/",
+            "limit": 5
+          },
+          "result": [
+            {
+              "title": "How to make the Startup Battlefield Top 20 — and what every company gets regardless",
+              "link": "https://techcrunch.com/2026/06/01/how-to-make-the-startup-battlefield-top-20-and-what-every-company-gets-regardless/",
+              "pubDate": "Mon, 01 Jun 2026 23:20:52 +0000"
+            },
+            {
+              "title": "Alphabet plans to raise $80B to pay for AI buildout",
+              "link": "https://techcrunch.com/2026/06/01/alphabet-plans-to-raise-80-billion-to-pay-for-ai-buildout/",
+              "pubDate": "Mon, 01 Jun 2026 22:55:09 +0000"
+            },
+            {
+              "title": "Defense tech darling Mach Industries hits $1.8B valuation, a 4x jump in a year",
+              "link": "https://techcrunch.com/2026/06/01/defense-tech-darling-mach-industries-hits-1-8b-valuation-a-4x-jump-in-a-year/",
+              "pubDate": "Mon, 01 Jun 2026 21:40:35 +0000"
+            },
+            {
+              "title": "Nvidia chases $200B CPU market with AI agent PCs from Microsoft, Dell, and HP",
+              "link": "https://techcrunch.com/2026/06/01/nvidia-chases-200b-cpu-market-with-ai-agent-pcs-from-microsoft-dell-and-hp/",
+              "pubDate": "Mon, 01 Jun 2026 21:35:00 +0000"
+            },
+            {
+              "title": "From the stage to the future: Where are Startup Battlefield’s alumni now?",
+              "link": "https://techcrunch.com/2026/06/01/from-the-stage-to-the-future-where-are-startup-battlefields-alumni-now/",
+              "pubDate": "Mon, 01 Jun 2026 20:26:08 +0000"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "G_RSS02_limit_arg",
+      "phase": "B",
+      "suite": "group",
+      "case_suite": "group",
+      "is_multiturn": false,
+      "metadata": {
+        "skill": "rss_limit_arg",
+        "difficulty": "easy",
+        "what_it_tests": "Trích đúng limit=3 từ yêu cầu đọc RSS."
+      },
+      "input": "Đọc RSS Hacker News này và lấy đúng 3 bài mới nhất: https://hnrss.org/frontpage",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "fetch_rss",
+            "args": {
+              "feed_url": "https://hnrss.org/frontpage",
+              "limit": 3
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "fetch_rss",
+            "args": {
+              "feed_url": "https://hnrss.org/frontpage",
+              "limit": 3
+            }
+          }
+        ],
+        "actual_text": null,
+        "case_failure_type": "wrong_arg_value",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "fetch_rss",
+          "args": {
+            "feed_url": "https://hnrss.org/frontpage",
+            "limit": 3
+          },
+          "result": [
+            {
+              "title": "Strace-ui, Bonsai_term, and the TUI renaissance",
+              "link": "https://blog.janestreet.com/strace-ui-bonsai-term-and-the-tui-renaissance/",
+              "pubDate": "Tue, 02 Jun 2026 04:05:23 +0000"
+            },
+            {
+              "title": "macOS needs its grid back",
+              "link": "https://blog.hopefullyuseful.com/blog/macos-needs-its-grid-back/",
+              "pubDate": "Tue, 02 Jun 2026 01:28:34 +0000"
+            },
+            {
+              "title": "Crystal Nights (2008)",
+              "link": "https://www.gregegan.net/MISC/CRYSTAL/Crystal.html",
+              "pubDate": "Tue, 02 Jun 2026 01:22:42 +0000"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "G_RSS03_article_url_not_rss",
+      "phase": "B",
+      "suite": "group",
+      "case_suite": "group",
+      "is_multiturn": false,
+      "metadata": {
+        "skill": "rss_boundary_normal_url",
+        "difficulty": "medium",
+        "what_it_tests": "URL bài viết thường → dùng fetch, không nhầm sang fetch_rss."
+      },
+      "input": "Tóm tắt bài viết này giúp mình: https://openai.com/blog/gpt-5",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "fetch",
+            "args": {
+              "url": "https://openai.com/blog/gpt-5"
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "fetch",
+            "args": {
+              "url": "https://openai.com/blog/gpt-5"
+            }
+          }
+        ],
+        "actual_text": null,
+        "case_failure_type": "wrong_tool",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "fetch",
+          "args": {
+            "url": "https://openai.com/blog/gpt-5"
+          },
+          "result": {
+            "tool": "read_url",
+            "url": "https://openai.com/blog/gpt-5",
+            "items": [
+              {
+                "title": "OpenAI",
+                "url": "https://openai.com/blog/gpt-5",
+                "source": "openai.com",
+                "summary": "OpenAI\n\n# 404\n\nPath bar went quiet\n\nLetters waited for new sense\n\nType a better north\n\nby [gpt-5.5(opens in a new window)](https://chatgpt.com/?model=5.5&openaicom-did=ba72ad46-bd45-4237-af92-f7147da6d0ae&openaicom_referred=true)"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "G_RSS04_missing_feed_url",
+      "phase": "B",
+      "suite": "group",
+      "case_suite": "group",
+      "is_multiturn": false,
+      "metadata": {
+        "skill": "rss_missing_url_clarify",
+        "difficulty": "medium",
+        "what_it_tests": "Người dùng yêu cầu RSS nhưng thiếu feed_url → hỏi lại, không đoán URL."
+      },
+      "input": "Lấy các bài mới nhất từ RSS giúp mình",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "clarify",
+            "args": {
+              "response_type": "text"
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "clarify",
+            "args": {
+              "question": "Bạn có thể cung cấp URL của RSS/XML feed mà bạn muốn lấy các bài mới nhất không?",
+              "response_type": "text"
+            }
+          }
+        ],
+        "actual_text": null,
+        "case_failure_type": "missing_info",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "clarify",
+          "args": {
+            "question": "Bạn có thể cung cấp URL của RSS/XML feed mà bạn muốn lấy các bài mới nhất không?",
+            "response_type": "text"
+          },
+          "result": {
+            "tool": "ask_user",
+            "question": "Bạn có thể cung cấp URL của RSS/XML feed mà bạn muốn lấy các bài mới nhất không?",
+            "response_type": "text",
+            "options": [],
+            "awaiting_user": true
+          }
+        }
+      ]
+    },
+    {
+      "id": "G_RSS05_multiturn_clarify_url",
+      "phase": "B",
+      "suite": "group",
+      "case_suite": "group",
+      "is_multiturn": true,
+      "metadata": {
+        "skill": "multiturn_rss_clarify_url",
+        "difficulty": "hard",
+        "what_it_tests": "Multi-turn: carry limit=4 từ lượt đầu và lấy feed_url được bổ sung ở lượt sau."
+      },
+      "input": [
+        {
+          "role": "user",
+          "content": "Lấy 4 bài mới nhất từ RSS giúp mình"
+        },
+        {
+          "role": "user",
+          "content": "Dùng feed này nhé: https://techcrunch.com/feed/"
+        },
+        {
+          "role": "user",
+          "content": "Giữ đúng 4 bài"
+        }
+      ],
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "fetch_rss",
+            "args": {
+              "feed_url": "https://techcrunch.com/feed/",
+              "limit": 4
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "fetch_rss",
+            "args": {
+              "feed_url": "https://techcrunch.com/feed/",
+              "limit": 4
+            }
+          }
+        ],
+        "actual_text": null,
+        "case_failure_type": "missing_info",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "fetch_rss",
+          "args": {
+            "feed_url": "https://techcrunch.com/feed/",
+            "limit": 4
+          },
+          "result": [
+            {
+              "title": "How to make the Startup Battlefield Top 20 — and what every company gets regardless",
+              "link": "https://techcrunch.com/2026/06/01/how-to-make-the-startup-battlefield-top-20-and-what-every-company-gets-regardless/",
+              "pubDate": "Mon, 01 Jun 2026 23:20:52 +0000"
+            },
+            {
+              "title": "Alphabet plans to raise $80B to pay for AI buildout",
+              "link": "https://techcrunch.com/2026/06/01/alphabet-plans-to-raise-80-billion-to-pay-for-ai-buildout/",
+              "pubDate": "Mon, 01 Jun 2026 22:55:09 +0000"
+            },
+            {
+              "title": "Defense tech darling Mach Industries hits $1.8B valuation, a 4x jump in a year",
+              "link": "https://techcrunch.com/2026/06/01/defense-tech-darling-mach-industries-hits-1-8b-valuation-a-4x-jump-in-a-year/",
+              "pubDate": "Mon, 01 Jun 2026 21:40:35 +0000"
+            },
+            {
+              "title": "Nvidia chases $200B CPU market with AI agent PCs from Microsoft, Dell, and HP",
+              "link": "https://techcrunch.com/2026/06/01/nvidia-chases-200b-cpu-market-with-ai-agent-pcs-from-microsoft-dell-and-hp/",
+              "pubDate": "Mon, 01 Jun 2026 21:35:00 +0000"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "G_RSS06_multiturn_limit_correction",
+      "phase": "B",
+      "suite": "group",
+      "case_suite": "group",
+      "is_multiturn": true,
+      "metadata": {
+        "skill": "multiturn_rss_limit_correction",
+        "difficulty": "hard",
+        "what_it_tests": "Multi-turn: giữ feed_url cũ nhưng sửa limit 10→2 theo lượt mới nhất."
+      },
+      "input": [
+        {
+          "role": "user",
+          "content": "Lấy 10 bài từ RSS https://hnrss.org/frontpage"
+        },
+        {
+          "role": "user",
+          "content": "Thôi lấy 2 bài thôi"
+        },
+        {
+          "role": "user",
+          "content": "Vẫn dùng đúng RSS Hacker News đó"
+        }
+      ],
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "fetch_rss",
+            "args": {
+              "feed_url": "https://hnrss.org/frontpage",
+              "limit": 2
+            }
+          }
+        ]
+      },
+      "result": {
+        "passed": true,
+        "routing_correct": true,
+        "args_correct": true,
+        "actual_tool_calls": [
+          {
+            "name": "fetch_rss",
+            "args": {
+              "feed_url": "https://hnrss.org/frontpage",
+              "limit": 2
+            }
+          }
+        ],
+        "actual_text": null,
+        "case_failure_type": "wrong_arg_value",
+        "observed_mismatch": null,
+        "failure_type": null,
+        "failures": []
+      },
+      "tool_results": [
+        {
+          "tool": "fetch_rss",
+          "args": {
+            "feed_url": "https://hnrss.org/frontpage",
+            "limit": 2
+          },
+          "result": [
+            {
+              "title": "Strace-ui, Bonsai_term, and the TUI renaissance",
+              "link": "https://blog.janestreet.com/strace-ui-bonsai-term-and-the-tui-renaissance/",
+              "pubDate": "Tue, 02 Jun 2026 04:05:23 +0000"
+            },
+            {
+              "title": "macOS needs its grid back",
+              "link": "https://blog.hopefullyuseful.com/blog/macos-needs-its-grid-back/",
+              "pubDate": "Tue, 02 Jun 2026 01:28:34 +0000"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -3,5 +3,62 @@
   "dataset_role": "group",
   "description": "Case do NHÓM tự viết thêm để cover thêm trường hợp. Mỗi case cần: id, phase='B', query HOẶC turns, failure_type (thuộc allowed_failure_types), và expect (tool_calls[...] hoặc no_tool=true). Nên kèm metadata.what_it_tests.",
   "allowed_failure_types": ["wrong_tool", "wrong_arg_value", "wrong_boundary", "unnecessary_tool", "out_of_scope", "missing_info"],
-  "cases": []
+  "cases": [
+    {
+      "id": "G_RSS01_feed_url_default_limit",
+      "phase": "B", "suite": "group",
+      "query": "Lấy 5 bài mới nhất từ RSS này giúp mình: https://techcrunch.com/feed/",
+      "failure_type": "wrong_tool",
+      "expect": {"tool_calls": [{"name": "fetch_rss", "args": {"feed_url": "https://techcrunch.com/feed/", "limit": 5}}]},
+      "metadata": {"skill": "routing_fetch_rss", "difficulty": "easy", "what_it_tests": "URL RSS/feed rõ ràng → gọi fetch_rss, không gọi fetch hay lookup."}
+    },
+    {
+      "id": "G_RSS02_limit_arg",
+      "phase": "B", "suite": "group",
+      "query": "Đọc RSS Hacker News này và lấy đúng 3 bài mới nhất: https://hnrss.org/frontpage",
+      "failure_type": "wrong_arg_value",
+      "expect": {"tool_calls": [{"name": "fetch_rss", "args": {"feed_url": "https://hnrss.org/frontpage", "limit": 3}}]},
+      "metadata": {"skill": "rss_limit_arg", "difficulty": "easy", "what_it_tests": "Trích đúng limit=3 từ yêu cầu đọc RSS."}
+    },
+    {
+      "id": "G_RSS03_article_url_not_rss",
+      "phase": "B", "suite": "group",
+      "query": "Tóm tắt bài viết này giúp mình: https://openai.com/blog/gpt-5",
+      "failure_type": "wrong_tool",
+      "expect": {"tool_calls": [{"name": "fetch", "args": {"url": "https://openai.com/blog/gpt-5"}}]},
+      "metadata": {"skill": "rss_boundary_normal_url", "difficulty": "medium", "what_it_tests": "URL bài viết thường → dùng fetch, không nhầm sang fetch_rss."}
+    },
+    {
+      "id": "G_RSS04_missing_feed_url",
+      "phase": "B", "suite": "group",
+      "query": "Lấy các bài mới nhất từ RSS giúp mình",
+      "failure_type": "missing_info",
+      "expect": {"tool_calls": [{"name": "clarify", "args": {"response_type": "text"}}]},
+      "metadata": {"skill": "rss_missing_url_clarify", "difficulty": "medium", "what_it_tests": "Người dùng yêu cầu RSS nhưng thiếu feed_url → hỏi lại, không đoán URL."}
+    },
+    {
+      "id": "G_RSS05_multiturn_clarify_url",
+      "phase": "B", "suite": "group",
+      "turns": [
+        {"role": "user", "content": "Lấy 4 bài mới nhất từ RSS giúp mình"},
+        {"role": "user", "content": "Dùng feed này nhé: https://techcrunch.com/feed/"},
+        {"role": "user", "content": "Giữ đúng 4 bài"}
+      ],
+      "failure_type": "missing_info",
+      "expect": {"tool_calls": [{"name": "fetch_rss", "args": {"feed_url": "https://techcrunch.com/feed/", "limit": 4}}]},
+      "metadata": {"skill": "multiturn_rss_clarify_url", "difficulty": "hard", "what_it_tests": "Multi-turn: carry limit=4 từ lượt đầu và lấy feed_url được bổ sung ở lượt sau."}
+    },
+    {
+      "id": "G_RSS06_multiturn_limit_correction",
+      "phase": "B", "suite": "group",
+      "turns": [
+        {"role": "user", "content": "Lấy 10 bài từ RSS https://hnrss.org/frontpage"},
+        {"role": "user", "content": "Thôi lấy 2 bài thôi"},
+        {"role": "user", "content": "Vẫn dùng đúng RSS Hacker News đó"}
+      ],
+      "failure_type": "wrong_arg_value",
+      "expect": {"tool_calls": [{"name": "fetch_rss", "args": {"feed_url": "https://hnrss.org/frontpage", "limit": 2}}]},
+      "metadata": {"skill": "multiturn_rss_limit_correction", "difficulty": "hard", "what_it_tests": "Multi-turn: giữ feed_url cũ nhưng sửa limit 10→2 theo lượt mới nhất."}
+    }
+  ]
 }
