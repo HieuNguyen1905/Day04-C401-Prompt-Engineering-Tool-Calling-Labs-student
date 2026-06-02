@@ -56,6 +56,15 @@ tools:
         url: {type: string, default: "", description: "Địa chỉ"}
       required: [url]
 
+  - name: fetch_rss
+    description: "Lấy danh sách bài viết mới nhất từ một URL RSS/XML feed. Chỉ dùng khi người dùng cung cấp hoặc yêu cầu đọc RSS/feed; nếu chỉ là URL bài viết thường thì dùng fetch."
+    parameters:
+      type: object
+      properties:
+        feed_url: {type: string, default: "", description: "URL RSS/XML feed, ví dụ https://techcrunch.com/feed/."}
+        limit: {type: integer, default: 5, description: "Số item RSS tối đa cần lấy."}
+      required: [feed_url]
+
   - name: format
     description: "Trình bày dữ liệu đã có thành văn bản."
     parameters:

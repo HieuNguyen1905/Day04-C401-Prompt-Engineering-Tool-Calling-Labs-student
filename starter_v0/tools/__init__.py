@@ -12,6 +12,7 @@ from .papers.tool import arxiv_search
 from .paper_text.tool import get_arxiv_paper_text
 from .timeline.tool import get_user_tweets
 from .fetch.tool import read_url
+from .fetch_rss.tool import fetch_rss
 from .format.tool import render_digest
 from .policy.tool import search_company_policy
 from .social_search.tool import search_tweets
@@ -30,6 +31,7 @@ TOOL_FUNCTIONS = {
     "social_search": search_tweets,
     "lookup": web_search,
     "fetch": read_url,
+    "fetch_rss": fetch_rss,
     "format": render_digest,
     "send": send_telegram,
     "policy": search_company_policy,
@@ -51,4 +53,3 @@ def to_openai_tools(declarations: list[dict[str, Any]]) -> list[dict[str, Any]]:
             "parameters": item.get("parameters", {"type": "object", "properties": {}}),
         },
     } for item in declarations]
-
