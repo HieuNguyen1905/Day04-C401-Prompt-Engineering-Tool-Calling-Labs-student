@@ -848,7 +848,7 @@ def create_transcript(settings: dict[str, Any]) -> dict[str, Any]:
     version = str(settings.get("version") or default_version())
     model = settings.get("model") or None
     history_window = int(settings.get("history_window") or 5)
-    max_tool_rounds = int(settings.get("max_tool_rounds") or 4)
+    max_tool_rounds = max(4, int(settings.get("max_tool_rounds") or 4))
     provider = get_provider(provider_name)
     selected_model = model or getattr(provider, "default_model", None)
     artifact_version = build_artifact_version(version, SYSTEM_PROMPT_PATH, TOOLS_PATH)
@@ -882,7 +882,7 @@ def process_message(transcript_id: str, user_text: str) -> dict[str, Any]:
     openai_tools = to_openai_tools(tool_declarations)
     provider = get_provider(str(transcript.get("provider") or "openrouter"))
     history_window = int(transcript.get("history_window") or 5)
-    max_tool_rounds = int(transcript.get("max_tool_rounds") or 4)
+    max_tool_rounds = max(4, int(transcript.get("max_tool_rounds") or 4))
 
     messages = [
         {"role": "system", "content": system_prompt},
